@@ -8,12 +8,22 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const algoliasearch = require('algoliasearch');
+
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+var client = algoliasearch('Y8Q3VSESJ3', '2b9e09d99f2c106b00faed00c2664917');
+var index = client.initIndex('swhackout');
 
 const store = new RedisStore({url:'//redis-11046.c9.us-east-1-4.ec2.cloud.redislabs.com:11046'});
 
@@ -23,16 +33,14 @@ app.use(session({
 	secret: 'milhouse',
 	resave: true,
 	saveUninitialized: false,
-	name: 'store-search-cookie',
-	ttl: 900000,
+	name: 'fbauth',
+	ttl: 5000,
 	prefix:'session',
-	cookie: {maxAge: 900000}
+	cookie: {maxAge: 5000}
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-let userprofile
 
 passport.use(new FacebookStrategy({
     clientID: '663527113857308',
@@ -40,8 +48,6 @@ passport.use(new FacebookStrategy({
     callbackURL: "http://localhost:3000/auth/facebook/callback"
     },
   (accessToken, refreshToken, profile, done) => {
-    console.log(profile)
-    userprofile = profile
     	done(null, profile);
 		}
 ));
@@ -54,14 +60,10 @@ passport.deserializeUser((user, done) => {
 	done(null, user);
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 function ensureAuthenticated(req, res, next) {
-	if (userprofile.displayName) {
-		console.log(req.sessionID);
+	if (req.user.id != null) {
+		console.log(req.user.id);
 		return next();
 	}
 	res.redirect(302, '/login');
@@ -78,11 +80,9 @@ app.get('/login', function(req, res) {
   res.render('login');
 });
 
-app.get('/',
-  ensureAuthenticated,
-  (req, res) => {
-    console.log(userprofile.displayName)
-  parsedProfile = JSON.stringify(userprofile)
-  res.render('index', {profile: userprofile.displayName})
+app.get('/', (req, res) => {
+  //console.log(userProfile);
+  parse = JSON.stringify(req.user._json);
+  res.render('index', {profile: parse})
 })
 module.exports = app;
