@@ -1,18 +1,23 @@
-<div id="event_banner">
-    <p id="event_title">Startup Weekend HackOut</p>
-    <p id="event_location">HomeAway</p>
-</div>
-<div id="chat">
-    <ul id="messages"></ul>
-    <form action="">
-        <input id="m" autocomplete="off"/>
-        <button>Send</button>
-    </form>
+<div>
+
+    <div id="event_banner">
+        <p id="event_title">Startup Weekend HackOut</p>
+        <p id="event_location">HomeAway</p>
+    </div>
+    <div id="chat">
+        <ul id="messages"></ul>
+        <form action="">
+            <input id="m" autocomplete="off"/>
+            <button>Send</button>
+        </form>
+
+        <!--<p id="user_id">{{profile}}</p>-->
+        <!--<p id="user_id">{{profile.id}}</p>-->
+        <!--<p id="user_name">{{profile.name}}</p>-->
+
+    </div>
 
 </div>
-<p id="user_id">{{profile}}</p>
-<p id="user_id">{{profile.id}}</p>
-<p id="user_name">{{profile.name}}</p>
 
 
 <style>
@@ -37,7 +42,6 @@
     form input {
         border: 0;
         padding: 10px;
-        width: 90%;
         margin-right: .5%;
     }
 
@@ -61,11 +65,11 @@
     }
 
     #event_banner {
-        background: no-repeat  url("/images/startup_weekend_banner.png");
+        background: no-repeat url("/images/startup_weekend_banner.png");
         background-size: 100%;
         background-position: center center;
         height: 12vh;
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0, 0, 0, 0.5);
         background-blend-mode: multiply
     }
 
@@ -84,7 +88,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-    var user_id = {{profile.id}};
     $(function () {
         var socket = io();
         $('form').submit(function () {

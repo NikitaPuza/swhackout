@@ -51,9 +51,14 @@ app.use(passport.session());
 passport.use(new FacebookStrategy({
     clientID: '663527113857308',
     clientSecret: '2d2bf833552930100b344bad56ace8b0',
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: "https://swhackout.herokuapp.com/auth/facebook/callback"
     },
   (accessToken, refreshToken, profile, done) => {
+    index.addObject({
+      name: profile.displayName
+    }, profile.id, function(err, content) {
+  console.log('objectID=' + content.objectID);
+});
     	done(null, profile);
 		}
 ));
@@ -68,11 +73,11 @@ passport.deserializeUser((user, done) => {
 
 
 function ensureAuthenticated(req, res, next) {
-	//if (req.user.id != null) {
-	//	console.log(req.user.id);
-	//	return next();
-	//}
-	//res.redirect(302, '/login');
+	if (req.user != undefined) {
+		console.log(req.user);
+		return next();
+	}
+	res.redirect(302, '/login');
   console.log(req.passport)
 }
 
@@ -95,11 +100,15 @@ app.get('/', (req, res) => {
 })
 
 app.get('/events', function (req, res) {
-  if(req.user == undefined) {
-    res.redirect(302, '/login')
-  }
-  res.render('events', {profile: req.user._json});
+  // if(req.user == undefined) {
+  //   res.redirect(302, '/login')
+  // }
+  // res.render('events', {profile: req.user._json});
+  res.render('events');
 });
+app.get('/people', function (req, res) {
+  res.render('people')
+})
 
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
