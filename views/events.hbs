@@ -157,13 +157,17 @@
             message_li.append(message_span);
 
             $('#messages').append(message_li);
-            var message_list = document.getElementById("messages");
-            message_list.scrollTop = message_list.scrollHeight;
+            scroll_chat_to_bottom();
         });
         resize_message_window();
     });
     window.onresize = resize_message_window;
     function resize_message_window() {
         $('ul#messages').height($(window).height() - $('form').height() - $('div#event_banner').height() - $('div.nav').height());
+        scroll_chat_to_bottom();
+    }
+    function scroll_chat_to_bottom() {
+        var message_list = document.getElementById("messages");
+        message_list.scrollTop = message_list.scrollHeight;
     }
 </script>
