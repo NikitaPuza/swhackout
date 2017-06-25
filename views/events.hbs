@@ -86,23 +86,81 @@
         padding: 0 1vh;
     }
 
+    span.pic {
+        clear: both;
+        float: left;
+        width: 5vw;
+        height: 5vw;
+        background-image: url("/images/profile_default.jpg");
+        background-blend-mode: multiply;
+        margin: 1px 1vw;
+    }
+    div.uname {
+        font-size: small;
+        margin-top: 1px;
+    }
+    div.message {
+        font-size: 14pt;
+
+    }
+
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
+    var user_name = {{profile.name}};
+    var red = {{colors.r}};
+    var green = {{colors.g}};
+    var blue ={{colors.b}};
+
     $(function () {
         var socket = io();
         $('form').submit(function () {
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
+            $message_field = $('#m');
+            send_data = {
+                'm': $message_field.val(),
+                'r': red,
+                'g': green,
+                'b': blue,
+                'uname': user_name
+            };
+            socket.emit('chat message', send_data);
+            $message_field.val('');
             return false;
         });
-        socket.on('chat message', function (msg) {
-            $('#messages').append($('<li>').text(msg));
+        socket.on('chat message', function (rx_data) {
+            var remote_message = rx_data['m'];
+            var remote_red = rx_data['r'];
+            var remote_green = rx_data['g'];
+            var remote_blue = rx_data['b'];
+            var remote_user_name = rx_data['uname'];
+
+            pic_span = $('<span>');
+            pic_span.addClass('pic');
+            pic_span.css('background-color', 'rgba(' + remote_red + ',' + remote_green + ',' + remote_blue + ',0.5)');
+
+            uname_span = $('<div>');
+            uname_span.addClass('uname');
+            uname_span.text(remote_user_name);
+
+            message_span = $('<div>');
+            message_span.addClass('message');
+            message_span.text(remote_message);
+
+            message_li = $('<li>');
+            message_li.append(pic_span);
+            message_li.append(uname_span);
+            message_li.append(message_span);
+
+            $('#messages').append(message_li);
             var message_list = document.getElementById("messages");
             message_list.scrollTop = message_list.scrollHeight;
         });
-        $('ul#messages').height($(window).height() - $('form').height() - $('div#event_banner').height() - $('div.nav').height())
+        resize_message_window();
     });
+    window.onresize = resize_message_window();
+    function resize_message_window() {
+        $('ul#messages').height($(window).height() - $('form').height() - $('div#event_banner').height() - $('div.nav').height());
+    }
 </script>
