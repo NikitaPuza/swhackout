@@ -103,9 +103,32 @@ app.get('/events', function (req, res) {
   if (req.user == undefined) {
     res.redirect(302, '/login');
   }
+  // req.user = {'_json':  {'name': "Testy McTesterson", "id": "39874678"}};
+  var multiplier = 4;
   var red_number = parseInt(req.user._json.id) % 256;
   var green_number = (parseInt(req.user._json.id) / 256) % 256;
   var blue_number = (parseInt(req.user._json.id) / 256 / 256) % 256;
+  var max_num = Math.max(red_number, green_number, blue_number);
+  var min_num = Math.min(red_number, green_number, blue_number);
+
+  if (red_number == max_num) {
+    red_number *= multiplier;
+    red_number = Math.min(red_number, 256);
+  } else if (red_number == min_num) {
+    red_number /= multiplier;
+  }
+  if (green_number == max_num) {
+    green_number *= multiplier;
+    green_number = Math.min(green_number, 256);
+  } else if (green_number == min_num) {
+    green_number /= multiplier;
+  }
+  if (blue_number == max_num) {
+    blue_number *= multiplier;
+    blue_number = Math.min(blue_number, 256);
+  } else if (blue_number == min_num) {
+    blue_number /= multiplier;
+  }
   var colors = {
     'r': red_number,
     'g': green_number,

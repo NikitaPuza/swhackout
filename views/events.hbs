@@ -40,19 +40,6 @@
 
     form input {
         border: 0;
-<<<<<<< HEAD
-        padding: 10px;
-        margin-right: .5%;
-        min-height:50px;
-    }
-
-    form button {
-        background: rgb(130, 224, 255);
-        border: none;
-        padding: 10px;
-        width: 16%;
-        min-height: 50px;
-=======
         padding: 10px 5px;
         margin: 0 0.5vw !important;
         width: 85vw;
@@ -66,7 +53,6 @@
         border: none;
         padding: 10px;
         margin: 0 1vw 0 0 !important;
->>>>>>> 108d2a2c303edb054d82464dc3377f4666e98021
     }
 
     #messages {
@@ -106,6 +92,8 @@
         width: 5vw;
         height: 5vw;
         background-image: url("/images/profile_default.jpg");
+        background-size: 100%;
+        background-position: center center;
         background-blend-mode: multiply;
         margin: 1px 1vw;
     }
@@ -152,7 +140,7 @@
 
             pic_span = $('<span>');
             pic_span.addClass('pic');
-            pic_span.css('background-color', 'rgba(' + remote_red + ',' + remote_green + ',' + remote_blue + ',0.5)');
+            pic_span.css('background-color', 'rgba(' + parseInt(remote_red) + ',' + parseInt(remote_green) + ',' + parseInt(remote_blue) + ',0.3)');
 
             uname_span = $('<div>');
             uname_span.addClass('uname');
