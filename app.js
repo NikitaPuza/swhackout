@@ -99,15 +99,15 @@ app.get('/login', function (req, res) {
   res.render('login');
 });
 
-app.get('/', (req, res) = > {
-  res.redirect(302, '/events')
-//console.log(userProfile);
-parse = JSON.stringify(req.user._json);
-res.render('index', {profile: parse})
+app.get('/', (req, res) => {
+    res.redirect(302, '/events')
+  //console.log(userProfile);
+  //parse = JSON.stringify(req.user._json);
+  res.render('index', {profile: 'parse'})
 })
 
 app.get('/events', function (req, res) {
-  if (req.user == undefined) {
+  /*if (req.user == undefined) {
     res.redirect(302, '/login')
   }
   var red_number = parseInt(req.user._json) % 256;
