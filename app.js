@@ -3,7 +3,7 @@ const path = require('path');
 const helmet = require('helmet');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
-const session = require('cookie-session')
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const algoliasearch = require('algoliasearch');
@@ -30,17 +30,12 @@ var client = algoliasearch('Y8Q3VSESJ3', '2b9e09d99f2c106b00faed00c2664917');
 var index = client.initIndex('swhackout');
 
 app.use(helmet());
-let expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 
-app.use(session({
-  name: 'fb-manager',
-  keys: ['key1, key2'],
-  cookie: {
-    secure: false,
-    httpOnly: false,
-    expires: expiryDate
-  }
-}))
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
