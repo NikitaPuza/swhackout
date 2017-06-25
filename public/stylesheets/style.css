@@ -2,6 +2,11 @@
     /* Adjust the pixel value based on amount of tabs */
     height: calc(100vh - 14rem);
   }
+    @media screen and (min-width: 768px) {
+  .tabs > [type="radio"]:checked + label + div, .tabs.stacked > [type="checkbox"]:checked + label + div {
+    height: calc(100vh - 7.75rem);
+  }
+  }
   form input {
     min-width:80%;
   }
