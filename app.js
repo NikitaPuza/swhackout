@@ -54,6 +54,11 @@ passport.use(new FacebookStrategy({
     callbackURL: "http://localhost:3000/auth/facebook/callback"
     },
   (accessToken, refreshToken, profile, done) => {
+    index.addObject({
+      name: profile.displayName
+    }, profile.id, function(err, content) {
+  console.log('objectID=' + content.objectID);
+});
     	done(null, profile);
 		}
 ));
@@ -68,11 +73,11 @@ passport.deserializeUser((user, done) => {
 
 
 function ensureAuthenticated(req, res, next) {
-	//if (req.user.id != null) {
-	//	console.log(req.user.id);
-	//	return next();
-	//}
-	//res.redirect(302, '/login');
+	if (req.user != undefined) {
+		console.log(req.user);
+		return next();
+	}
+	res.redirect(302, '/login');
   console.log(req.passport)
 }
 
