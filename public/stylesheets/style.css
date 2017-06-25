@@ -45,3 +45,8 @@ img {
       min-height: 98%;
 }
 
+#fb {
+  height: 60px;
+  width: 80%;
+  margin: 0 9%
+}
