@@ -106,6 +106,9 @@ app.get('/events', function (req, res) {
   parse = JSON.stringify(req.user._json);
   res.render('events', {profile: parse});
 });
+app.get('/people', function (req, res) {
+  res.render('people')
+})
 
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){

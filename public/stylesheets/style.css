@@ -2,3 +2,6 @@
     /* Adjust the pixel value based on amount of tabs */
     height: calc(100vh - 14rem);
   }
+  form input {
+    min-width:80%;
+  }
