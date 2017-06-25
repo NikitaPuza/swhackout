@@ -42,11 +42,12 @@ form input {
     
 }
 img {
-      min-height: 98%;
+    min-height: 98%;
 }
 
 #fb {
   height: 60px;
   width: 80%;
-  margin: 0 9%
+  margin: 0 9%;
+  min-height: 1%;
 }
