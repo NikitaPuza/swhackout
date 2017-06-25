@@ -92,4 +92,24 @@ app.get('/', (req, res) => {
   parse = JSON.stringify(req.user._json);
   res.render('index', {profile: parse})
 })
+
+app.get('/events', function (req, res) {
+  res.render('events');
+});
+
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+});
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+
+
+
 module.exports = {app: app, server: server};
