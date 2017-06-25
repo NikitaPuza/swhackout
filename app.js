@@ -40,9 +40,9 @@ app.use(session({
 	resave: true,
 	saveUninitialized: false,
 	name: 'fbauth',
-	ttl: 5000,
+	ttl: 15000,
 	prefix:'session',
-	cookie: {maxAge: 5000}
+	cookie: {maxAge: 15000}
 }));
 
 app.use(passport.initialize());
@@ -93,6 +93,7 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/', (req, res) => {
+  console.log(req.user)
     res.redirect(302, '/events')
  // console.log(userProfile);
  // parse = JSON.stringify(req.user._json);
@@ -103,6 +104,7 @@ app.get('/events', function (req, res) {
   if (req.user == undefined) {
     res.redirect(302, '/login');
   }
+  console.log(req.user);
   // req.user = {'_json':  {'name': "Testy McTesterson", "id": "39874678"}};
   var multiplier = 4;
   var red_number = parseInt(req.user._json.id) % 256;
