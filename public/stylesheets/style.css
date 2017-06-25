@@ -10,16 +10,20 @@ a {
 }
 
 .nav ul {
-    list-style: none;
+    width: 100%;
+    margin: auto;
     display: inline-block;
+    padding-left: 0%;
 }
 
 .nav li {
-    display: inline;
-    width: 49%;
+    width: 50%;
     font-size: 5vh;
     color: #eee;
-    border: solid #eee 1px;
+    /* border: solid #eee 1px; */
+    float: left;
+    list-style: none;
+    text-align: center;
 }
 
 .tabs > [type="radio"]:checked + label + div, .tabs.stacked > [type="checkbox"]:checked + label + div {
@@ -35,4 +39,5 @@ a {
 
 form input {
     min-width: 80%;
+    
 }
