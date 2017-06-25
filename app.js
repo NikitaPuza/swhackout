@@ -92,16 +92,19 @@ app.get('/login', function(req, res) {
   res.render('login');
 });
 
-app.get('/',
-ensureAuthenticated,
- (req, res) => {
+app.get('/', (req, res) => {
+    res.redirect(302, '/events')
   //console.log(userProfile);
   parse = JSON.stringify(req.user._json);
   res.render('index', {profile: parse})
 })
 
 app.get('/events', function (req, res) {
-  res.render('events');
+  if(req.user == undefined) {
+    res.redirect(302, '/login')
+  }
+  parse = JSON.stringify(req.user._json);
+  res.render('events', {profile: parse});
 });
 
 io.on('connection', function(socket){
