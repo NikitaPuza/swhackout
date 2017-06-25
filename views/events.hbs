@@ -1,11 +1,6 @@
-<div class="nav">
-    <ul>
-        <li>events</li>
-        <li>grid</li>
-    </ul>
-</div>
 <div id="event_banner">
-    <p>Startup Weekend HackOut</p>
+    <p id="event_title">Startup Weekend HackOut</p>
+    <p id="event_location">HomeAway</p>
 </div>
 <div id="chat">
     <ul id="messages"></ul>
@@ -15,6 +10,9 @@
     </form>
 
 </div>
+<p id="user_id">{{profile}}</p>
+<p id="user_id">{{profile.id}}</p>
+<p id="user_name">{{profile.name}}</p>
 
 
 <style>
@@ -54,24 +52,39 @@
         list-style-type: none;
         margin: 0;
         padding: 0;
+        overflow: scroll;
     }
 
     #messages li {
         padding: 5px 10px;
-    }
-
-    #messages li:nth-child(odd) {
-        background: #eee;
+        border-bottom: solid #eee thin;
     }
 
     #event_banner {
-        background-image: url("/images/startup_weekend_banner.png");
+        background: no-repeat  url("/images/startup_weekend_banner.png");
+        background-size: 100%;
+        background-position: center center;
+        height: 12vh;
+        background-color: rgba(0,0,0,0.5);
+        background-blend-mode: multiply
     }
+
+    #event_title {
+        font-size: 3vh;
+        padding: 1vh 1vh 1vh 1vh;
+    }
+
+    #event_location {
+        font-size: 2vh;
+        padding: 0 1vh;
+    }
+
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
+    var user_id = {{profile.id}};
     $(function () {
         var socket = io();
         $('form').submit(function () {
@@ -81,7 +94,9 @@
         });
         socket.on('chat message', function (msg) {
             $('#messages').append($('<li>').text(msg));
+            var message_list = document.getElementById("messages");
+            message_list.scrollTop = message_list.scrollHeight;
         });
-
+        $('ul#messages').height($(window).height() - $('form').height() - $('div#event_banner').height() - $('div.nav').height())
     });
 </script>

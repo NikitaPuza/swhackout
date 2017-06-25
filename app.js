@@ -98,8 +98,7 @@ app.get('/events', function (req, res) {
   if(req.user == undefined) {
     res.redirect(302, '/login')
   }
-  parse = JSON.stringify(req.user._json);
-  res.render('events', {profile: parse});
+  res.render('events', {profile: req.user._json});
 });
 
 io.on('connection', function(socket){
