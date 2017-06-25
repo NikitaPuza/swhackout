@@ -3,9 +3,7 @@ const path = require('path');
 const helmet = require('helmet');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
-const redis = require('redis');
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
+const session = require('cookie-session')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const algoliasearch = require('algoliasearch');
@@ -35,7 +33,7 @@ app.use(helmet());
 let expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 
 app.use(session({
-  name: 'cat-manager',
+  name: 'fb-manager',
   keys: ['key1, key2'],
   cookie: {
     secure: false,
