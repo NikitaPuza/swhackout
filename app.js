@@ -10,13 +10,19 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const algoliasearch = require('algoliasearch');
 
-
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+
+app.use(function(req, res, next){
+  res.io = io;
+  next();
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -62,11 +68,12 @@ passport.deserializeUser((user, done) => {
 
 
 function ensureAuthenticated(req, res, next) {
-	if (req.user.id != null) {
-		console.log(req.user.id);
-		return next();
-	}
-	res.redirect(302, '/login');
+	//if (req.user.id != null) {
+	//	console.log(req.user.id);
+	//	return next();
+	//}
+	//res.redirect(302, '/login');
+  console.log(req.passport)
 }
 
 app.get('/auth/facebook',
@@ -85,4 +92,4 @@ app.get('/', (req, res) => {
   parse = JSON.stringify(req.user._json);
   res.render('index', {profile: parse})
 })
-module.exports = app;
+module.exports = {app: app, server: server};
