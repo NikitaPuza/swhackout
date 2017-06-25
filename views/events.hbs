@@ -162,7 +162,7 @@
         });
         resize_message_window();
     });
-    window.onresize = resize_message_window();
+    window.onresize = resize_message_window;
     function resize_message_window() {
         $('ul#messages').height($(window).height() - $('form').height() - $('div#event_banner').height() - $('div.nav').height());
     }
