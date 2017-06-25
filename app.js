@@ -100,6 +100,9 @@ app.get('/', (req, res) => {
 })
 
 app.get('/events', function (req, res) {
+  if (req.user == undefined) {
+    res.redirect(302, '/login');
+  }
   var red_number = parseInt(req.user._json) % 256;
   var green_number = (parseInt(req.user._json) / 256) % 256;
   var blue_number = (parseInt(req.user._json) / 256 / 256) % 256;
