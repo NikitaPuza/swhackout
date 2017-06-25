@@ -100,11 +100,11 @@ app.get('/', (req, res) => {
 })
 
 app.get('/events', function (req, res) {
-  // if(req.user == undefined) {
-  //   res.redirect(302, '/login')
-  // }
-  // res.render('events', {profile: req.user._json});
-  res.render('events');
+  if(req.user == undefined) {
+    res.redirect(302, '/login')
+  }
+  res.render('events', {profile: req.user._json});
+  // res.render('events');
 });
 app.get('/people', function (req, res) {
   res.render('people')
