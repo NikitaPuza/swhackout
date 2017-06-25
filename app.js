@@ -31,19 +31,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 var client = algoliasearch('Y8Q3VSESJ3', '2b9e09d99f2c106b00faed00c2664917');
 var index = client.initIndex('swhackout');
 
-const store = new RedisStore({url:'//redis-11046.c9.us-east-1-4.ec2.cloud.redislabs.com:11046'});
-
 app.use(helmet());
+let expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+
 app.use(session({
-	store: store,
-	secret: 'milhouse',
-	resave: true,
-	saveUninitialized: false,
-	name: 'fbauth',
-	ttl: 15000,
-	prefix:'session',
-	cookie: {maxAge: 15000}
-}));
+  name: 'cat-manager',
+  keys: ['key1, key2'],
+  cookie: {
+    secure: false,
+    httpOnly: false,
+    expires: expiryDate
+  }
+}))
 
 app.use(passport.initialize());
 app.use(passport.session());
