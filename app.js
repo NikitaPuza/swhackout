@@ -51,7 +51,7 @@ app.use(passport.session());
 passport.use(new FacebookStrategy({
     clientID: '663527113857308',
     clientSecret: '2d2bf833552930100b344bad56ace8b0',
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: "https://swhackout.herokuapp.com/auth/facebook/callback"
     },
   (accessToken, refreshToken, profile, done) => {
     index.addObject({
